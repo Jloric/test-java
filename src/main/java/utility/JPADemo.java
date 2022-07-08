@@ -19,10 +19,10 @@ public class JPADemo {
             entityMgr.getTransaction().begin();
 
             Client client = new Client();
-            client.setIdClient(1);
+            //client.setIdClient(1);
             client.setNom("antoine");
             client.setPrenom("daniel");
-            entityMgr.merge(client);
+            entityMgr.persist(client);
 
             entityMgr.getTransaction().commit();
 
