@@ -1,33 +1,40 @@
 package dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
-@Entity
+@Entity(name="details_client")
 @Table(name = "details")
 public class DetailsClient {
-    private long idDetail;
-    private String tel,mail,adresse;
+    @Id
+    @GeneratedValue(generator = "foreignkeygen")
+    @GenericGenerator(strategy = "foreign", name="foreignkeygen",parameters = @Parameter(name="property",value="client"))
+    private long id;
+    @Basic
+    private String tel;
+    @Basic
+    private String   mail;
+    @Basic
+    private String    adresse;
+    @OneToOne(mappedBy = "detail",targetEntity = Client.class)
     private Client client;
 
     public DetailsClient() {
     }
 
-    public DetailsClient(long idDetail, String tel, String mail, String adresse) {
-        this.idDetail = idDetail;
+    public DetailsClient(String tel, String mail, String adresse) {
         this.tel = tel;
         this.mail = mail;
         this.adresse = adresse;
     }
-    @Id
-    public long getIdDetail() {
-        return idDetail;
+
+    public long getId() {
+        return id;
     }
 
-    public void setIdDetail(long idDetail) {
-        this.idDetail = idDetail;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTel() {
@@ -54,7 +61,7 @@ public class DetailsClient {
         this.adresse = adresse;
     }
 
-    @OneToOne(mappedBy = "DetailsClient")
+
     public Client getClient() {
         return client;
     }
@@ -66,7 +73,7 @@ public class DetailsClient {
     @Override
     public String toString() {
         return "Details Client{" +
-                "idDetail=" + idDetail +
+                "idDetail=" + id +
                 ", tel='" + tel + '\'' +
                 ", mail='" + mail + '\'' +
                 ", adresse='" + adresse + '\'' +

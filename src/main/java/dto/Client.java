@@ -2,36 +2,44 @@ package dto;
 
 import jakarta.persistence.*;
 
-import static jakarta.persistence.GenerationType.AUTO;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 
 public class Client {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idClient;
-
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @PrimaryKeyJoinColumn
+    private long id;
+    @Basic
     private String nom;
-
+    @Basic
     private String prenom;
-
-    private DetailsClient details;
+    @OneToOne(cascade = CascadeType.ALL,targetEntity = DetailsClient.class)
+    private DetailsClient detail;
 
     public Client() {
     }
 
-    public Client(long idClient, String nom, String prenom) {
-        this.idClient = idClient;
+    public Client(String nom, String prenom) {
         this.nom = nom;
         this.prenom = prenom;
     }
 
-    public long getIdClient() {
-        return idClient;
+    public Client(long idClient, String nom, String prenom) {
+        this.id = idClient;
+        this.nom = nom;
+        this.prenom = prenom;
     }
 
-    public void setIdClient(long idClient) {
-        this.idClient = idClient;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNom() {
@@ -50,18 +58,18 @@ public class Client {
         this.prenom = prenom;
     }
 
-    public DetailsClient getDetails() {
-        return details;
+    public DetailsClient getDetail() {
+        return detail;
     }
 
-    public void setDetails(DetailsClient details) {
-        this.details = details;
+    public void setDetail(DetailsClient detail) {
+        this.detail = detail;
     }
 
     @Override
     public String toString() {
         return "Client{" +
-                "idClient=" + idClient +
+                "idClient=" + id +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\''+
                 '}';
